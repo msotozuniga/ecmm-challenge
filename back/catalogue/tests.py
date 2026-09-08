@@ -45,6 +45,28 @@ class ProductListCreateViewTests(APITestCase):
 		self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 		self.assertTrue(Product.objects.filter(name='Dental Probe').exists())
 
+	def test_put_updates_a_product(self):
+		product = Product.objects.get(name='Dental Mirror')
+		response = self.client.put(
+			'/api/products/{}/'.format(product.id),
+			{
+				'name': 'Dental Explorer',
+				'description': 'Explorer',
+				'price': '12.500',
+				'stock': 8,
+				'category': self.category.id,
+			},
+			format='json',
+		)
+
+		self.assertEqual(response.status_code, status.HTTP_200_OK)
+		self.assertEqual(response.data['name'], 'Dental Explorer')
+		product.refresh_from_db()
+		self.assertEqual(product.name, 'Dental Explorer')
+		self.assertEqual(product.description, 'Explorer')
+		self.assertEqual(str(product.price), '12.500')
+		self.assertEqual(product.stock, 8)
+
 	def test_post_rejects_missing_name(self):
 		response = self.client.post('/api/products/', {
 			'description': 'Probe',

@@ -15,7 +15,7 @@ class ProductListCreateView(generics.ListCreateAPIView):
     pagination_class = ProductPagination
 
     def get_queryset(self):
-        queryset = Product.objects.all()
+        queryset = Product.objects.order_by('id')
         name = self.request.query_params.get('name')
         category = self.request.query_params.get('category')
 

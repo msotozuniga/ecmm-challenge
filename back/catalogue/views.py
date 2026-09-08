@@ -1,15 +1,8 @@
 from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework import generics
-from rest_framework.pagination import PageNumberPagination
 from .models import Product, Category
 from .serializer import ProductSerializer, CategorySerializer
-
-
-class ProductPagination(PageNumberPagination):
-    page_size = 10
-    page_size_query_param = 'page_size'
-    max_page_size = 50
+from .pagination import ProductPagination
 
 
 class CategoryListView(generics.ListAPIView):
@@ -34,7 +27,7 @@ class ProductListCreateView(generics.ListCreateAPIView):
         return queryset
 
 
-class ProductRetrieveUpdateDeleteView(APIView):
+class ProductRetrieveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'id'

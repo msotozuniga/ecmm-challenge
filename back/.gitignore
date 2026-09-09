@@ -51,3 +51,6 @@ manage.py
 
 # database
 *.sqlite3
+
+# environment
+.env

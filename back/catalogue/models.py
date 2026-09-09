@@ -1,8 +1,14 @@
+
 from django.db import models
 from decimal import Decimal
 from django.core.validators import MinValueValidator
 
+
 class Product(models.Model):
+    """
+    Mapping for 'product' table.
+    """
+
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
     price = models.DecimalField(
@@ -21,9 +27,18 @@ class Product(models.Model):
         ]
 
     def __str__(self):
+        """
+        Return the product name for display and administrative interfaces.
+        """
+
         return self.name
 
+
 class Category(models.Model):
+    """
+    Mapping for 'product' table.
+    """
+
     name = models.CharField(max_length=100, unique=True)
 
     class Meta:
@@ -32,4 +47,8 @@ class Category(models.Model):
         verbose_name_plural = "Categories"
 
     def __str__(self):
+        """
+        Return the category name for display and administrative interfaces.
+        """
+
         return self.name

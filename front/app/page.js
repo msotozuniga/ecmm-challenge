@@ -10,7 +10,7 @@ import {
   updateProduct,
 } from "../lib/api";
 
-const DEFAULT_PAGE_SIZE = 12;
+const DEFAULT_PAGE_SIZE = 6;
 const EMPTY_FORM = {
   name: "",
   description: "",

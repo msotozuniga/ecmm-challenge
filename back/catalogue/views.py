@@ -5,7 +5,7 @@ from .serializer import ProductSerializer, CategorySerializer
 from .pagination import ProductPagination
 
 
-class CategoryListView(generics.ListCreateAPIView):
+class CategoryListView(generics.ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 

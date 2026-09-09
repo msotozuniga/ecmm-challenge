@@ -17,12 +17,12 @@ class ProductListCreateView(generics.ListCreateAPIView):
     def get_queryset(self):
         queryset = Product.objects.order_by('id')
         name = self.request.query_params.get('name')
-        category = self.request.query_params.get('category')
+        category_id = self.request.query_params.get('category_id')
 
         if name:
             queryset = queryset.filter(name__icontains=name)
-        if category:
-            queryset = queryset.filter(category_id=category)
+        if category_id:
+            queryset = queryset.filter(category_id=category_id)
 
         return queryset
 

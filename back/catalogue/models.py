@@ -12,7 +12,7 @@ class Product(models.Model):
             MinValueValidator(Decimal("0.0"))
         ])
     stock = models.PositiveIntegerField()
-    category = models.ForeignKey('Category', on_delete=models.CASCADE)
+    category_id = models.ForeignKey('Category', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

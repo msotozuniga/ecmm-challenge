@@ -13,19 +13,19 @@ class ProductListCreateViewTests(APITestCase):
 			description='Mirror',
 			price='10.000',
 			stock=5,
-			category=self.category,
+			category_id=self.category,
 		)
 		Product.objects.create(
 			name='Surgical Gloves',
 			description='Gloves',
 			price='20.000',
 			stock=10,
-			category=other_category,
+			category_id=other_category,
 		)
 
 	def test_get_filters_by_name_and_category_and_paginates(self):
 		response = self.client.get(
-			'/api/products/?name=mirror&category={}&page_size=1'.format(self.category.id)
+			'/api/products/?name=mirror&category_id={}&page_size=1'.format(self.category.id)
 		)
 
 		self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -39,7 +39,7 @@ class ProductListCreateViewTests(APITestCase):
 			'description': 'Probe',
 			'price': '15.500',
 			'stock': 3,
-			'category': self.category.id,
+			'category_id': self.category.id,
 		}, format='json')
 
 		self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -54,7 +54,7 @@ class ProductListCreateViewTests(APITestCase):
 				'description': 'Explorer',
 				'price': '12.500',
 				'stock': 8,
-				'category': self.category.id,
+				'category_id': self.category.id,
 			},
 			format='json',
 		)
@@ -72,7 +72,7 @@ class ProductListCreateViewTests(APITestCase):
 			'description': 'Probe',
 			'price': '15.500',
 			'stock': 3,
-			'category': self.category.id,
+			'category_id': self.category.id,
 		}, format='json')
 
 		self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -85,7 +85,7 @@ class ProductListCreateViewTests(APITestCase):
 			'description': 'Probe',
 			'price': '-1.000',
 			'stock': 3,
-			'category': self.category.id,
+			'category_id': self.category.id,
 		}, format='json')
 
 		self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -98,7 +98,7 @@ class ProductListCreateViewTests(APITestCase):
 			'description': 'Probe',
 			'price': '15.500',
 			'stock': 'three',
-			'category': self.category.id,
+			'category_id': self.category.id,
 		}, format='json')
 
 		self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -111,29 +111,29 @@ class ProductListCreateViewTests(APITestCase):
 			'description': 'Probe',
 			'price': '15.500',
 			'stock': 3,
-			'category': 999,
+			'category_id': 999,
 		}, format='json')
 
 		self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-		self.assertIn('category', response.data)
-		self.assertIn('Invalid category', str(response.data['category']))
+		self.assertIn('category_id', response.data)
+		self.assertIn('Invalid category', str(response.data['category_id']))
 
 	def test_post_reports_all_validation_errors(self):
 		response = self.client.post('/api/products/', {
 			'price': '-1.000',
 			'stock': 'three',
-			'category': 999,
+			'category_id': 999,
 		}, format='json')
 
 		self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 		self.assertIn('name', response.data)
 		self.assertIn('price', response.data)
 		self.assertIn('stock', response.data)
-		self.assertIn('category', response.data)
+		self.assertIn('category_id', response.data)
 		self.assertTrue(response.data['name'])
 		self.assertTrue(response.data['price'])
 		self.assertTrue(response.data['stock'])
-		self.assertIn('Invalid category', str(response.data['category']))
+		self.assertIn('Invalid category', str(response.data['category_id']))
 
 
 class ProductRetrieveUpdateDeleteViewTests(APITestCase):
@@ -144,7 +144,7 @@ class ProductRetrieveUpdateDeleteViewTests(APITestCase):
 			description='Mirror',
 			price='10.000',
 			stock=5,
-			category=self.category,
+			category_id=self.category,
 		)
 
 	def test_get_returns_a_product(self):

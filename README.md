@@ -1,113 +1,133 @@
-# Prueba técnica Junior Fullstack
-
-Construye una aplicación sencilla para administrar un catálogo de productos. La
-solución debe incluir una API REST en Django y una interfaz web que la consuma.
-
-**Tiempo estimado de desarrollo:** 90 minutos.
-
-Este tiempo es una referencia para dimensionar el alcance y no un límite de
-ejecución. Se recomienda priorizar una solución simple, funcional y clara.
-
-## Alcance
-
-### API
-
-La API debe permitir:
-
-- Listar productos y consultar uno por su ID.
-- Crear, editar y eliminar productos.
-- Filtrar productos por categoría.
-- Buscar productos por nombre.
-
-Una **categoría** debe contener:
-- nombre
-
-
-Un **producto** debe contener:
-- nombre
-- descripción
-- precio
-- stock
-- categoría
-- fecha de creación
-
-### Interfaz web
-
-La interfaz debe permitir, como mínimo:
-
-- Visualizar el listado de productos.
-- Crear un producto mediante un formulario.
-- Filtrar o buscar productos.
-
-Puedes utilizar Next.js u otro framework basado en React. La elección queda a tu
-criterio y debe ser adecuada al alcance de la solución.
-
-## Reglas
-
-- El backend debe utilizar Django y Django REST Framework.
-- La base de datos debe ser SQLite.
-- El nombre de cada categoría debe ser único.
-- Nombre, precio, stock y categoría son obligatorios.
-- El precio debe ser mayor o igual a cero.
-- El stock debe ser un entero mayor o igual a cero.
-- La categoría asociada debe existir.
-- Los errores de validación deben devolver una respuesta HTTP apropiada y comprensible.
-
-No se requiere autenticación, carrito de compras, órdenes, pagos ni despliegue.
-
-## Entregables
-
-- API e interfaz web funcionales.
-- Migraciones de base de datos.
-- Al menos dos pruebas automatizadas: creación correcta de un producto y rechazo
-  de datos inválidos.
-- Instrucciones completas para ejecutar el proyecto.
-
-La organización de endpoints y la elección de herramientas adicionales quedan a
-criterio del postulante.
-
-## Uso de herramientas de IA
-
-Puedes utilizar herramientas de IA como apoyo. Si lo haces, indícalo brevemente
-en tus anotaciones junto con el propósito para el que las utilizaste. Debes
-comprender todo el código presentado; estas herramientas no reemplazan el dominio
-de la solución.
-
-## Proceso de entrega
-
-Realiza un fork de este repositorio y desarrolla allí tu solución. Al finalizar,
-comparte el enlace público al fork según las instrucciones recibidas.
-
-El plazo para enviar la solución es de **cinco días corridos** desde la recepción
-de la prueba. Una vez vencido ese plazo, no se recibirán nuevas entregas.
-
-## Criterios de evaluación
-
-- Cumplimiento de los requisitos y funcionamiento de los endpoints.
-- Uso adecuado de modelos, serializers y vistas.
-- Integración entre la interfaz y la API.
-- Elección de herramientas acorde con el alcance solicitado.
-- Claridad, organización y comprensión del código.
-- Calidad de las validaciones, pruebas y documentación.
-
----
-
-## Anotaciones del postulante
-
-Completa este espacio antes de entregar tu solución.
-
 ### Instrucciones de ejecución
 
-Indica los comandos necesarios para instalar las dependencias, configurar la base
-de datos, ejecutar el backend, ejecutar la interfaz y correr las pruebas. La
-solución debe poder levantarse siguiendo únicamente estas instrucciones.
+#### Backend
+
+Abrir una terminal en la carpeta `back`:
+
+```bash
+cd back
+```
+
+Generar el ambiente virtual `.venv` dentro de `back`:
+
+**Linux/macOS**
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+**Windows (PowerShell)**
+
+```powershell
+py -m venv .venv
+.venv\Scripts\Activate.ps1
+```
+
+**Windows (cmd)**
+
+```bat
+py -m venv .venv
+.venv\Scripts\activate.bat
+```
+
+Instalar las dependencias, crear el archivo `.env` a partir del template y
+crear/actualizar la base de datos de Django:
+
+**Linux/macOS**
+
+```bash
+python -m pip install -r requirements.txt
+cp .env.example .env
+python manage.py migrate
+```
+
+**Windows**
+
+```bat
+python -m pip install -r requirements.txt
+copy .env.example .env
+python manage.py migrate
+```
+
+Iniciar el backend en el puerto 8000:
+
+```bash
+python manage.py runserver
+```
+
+Para ejecutar las pruebas del backend:
+
+```bash
+python manage.py test
+```
+
+#### Frontend
+
+Abrir otra terminal en la carpeta `front`:
+
+```bash
+cd front
+```
+
+Instalar las dependencias y crear el archivo `.env` a partir del template.
+
+**Linux/macOS**
+
+```bash
+npm install
+cp .env.example .env
+```
+
+**Windows**
+
+```bat
+npm install
+copy .env.example .env
+```
+
+Generar la compilación de producción y luego iniciar la interfaz:
+
+```bash
+npm run build
+npm run start
+```
+
+La interfaz quedará disponible en `http://localhost:3000` y el backend en
+`http://127.0.0.1:8000` (o en el puerto alternativo configurado).
 
 ### Decisiones y observaciones
 
-Describe brevemente cualquier decisión técnica relevante, supuesto, limitación o
-mejora pendiente.
+#### Backend
+
+##### Decisiones
+
+- Uso de APIViews: Se optó por usar API views para mantener simpleza en URLs y tener alta adapatabilidad respecto a las acciones posibles frente a una request respecto a los Viewsets. También permite el uso de las vistas genericas
+- Índice en el nombre de un producto: Se asume que la tabla producto sería de tamaño considerable, por lo que se añade un índice para ayudar búsquedas por tal campo
+- 3 décimales en el precio: Según se tiene entendido es el máximo número de decimales que puede usar una moneda
+
+##### Supuestos
+
+- Tabla 'categoría' de bajo tamaño: se asume que la tabla categoría no tendría un gran tamaño, por lo que no se ve necesario usar paginación al momento de enviar al front
+- Tabla 'productos' de mediano a alto tamaño: se asume que la tabla producto tendría tamaño considerable, por lo que sería necesario limitarla antes de enviarla al front
+
+##### Mejoras pendientes
+
+- Paginación en productos: si bien la paginación para productos actual es eficiente, si la tabla crece demasiado en tamaño esto podría causar mucho retraso. En ese entonces sería útil cambiar la estrategia de paginación a una basada en índices
+- División precio y formato en producto: Un producto puede venir en distintos formatos, y si se quiere vender internacional, sería bueno tener precios diferenciados. Se propone sacar precio de la tabla producto y generar una nueva donde haya una relación entre formato de producto y el precio en alguna moneda
+
+#### Frontend
+
+#### Decisiones
+
+- Reuso modal para creación y actualización de datos producto: los campos y validaciones necesario para ambos procesos son idénticos, por lo que no se veía necesario generar un componente distinto
+- Filtros de productos visibles en URL: permite compartir una búsqueda de productos. Útil cuando se quiere redirigir a la página
+
+#### Mejoras pendientes
+
+- Conexión a backend: Para evitar conexión directa contra el backend, el cliente debería mandar una request al servidor de front que actuará como proxy contra el backend.
+
 
 ### Herramientas de IA utilizadas
 
-Si utilizaste herramientas de IA, indica cuáles y para qué. Si no utilizaste
-ninguna, indícalo también.
+Se utilizó Github copilot durante el desarrollo. En el contexto del backend, fue usado para la escritura de tests. Por otro lado, para frontend se uso en el diseño de la página y la generación de código, con el postulante dando indicaciones generales sobre la funcionalidad y organización del código.

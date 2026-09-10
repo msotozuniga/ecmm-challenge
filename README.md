@@ -118,7 +118,7 @@ La interfaz quedará disponible en `http://localhost:3000` y el backend en
 
 #### Frontend
 
-#### Decisiones
+##### Decisiones
 
 - Reuso modal para creación y actualización de datos producto: los campos y validaciones necesario para ambos procesos son idénticos, por lo que no se veía necesario generar un componente distinto
 - Filtros de productos visibles en URL: permite compartir una búsqueda de productos. Útil cuando se quiere redirigir a la página
@@ -130,4 +130,4 @@ La interfaz quedará disponible en `http://localhost:3000` y el backend en
 
 ### Herramientas de IA utilizadas
 
-Se utilizó Github copilot durante el desarrollo. En el contexto del backend, fue usado para la escritura de tests. Por otro lado, para frontend se uso en el diseño de la página y la generación de código, con el postulante dando indicaciones generales sobre la funcionalidad y organización del código.
+Se utilizó Github copilot durante el desarrollo. En el contexto del backend, fue usado para la escritura de tests. Por otro lado, para frontend se uso en el diseño de la página y la generación de código, con el postulante dando indicaciones generales sobre la funcionalidad y organización del código. También se usó para asistir en la generación de documentación
